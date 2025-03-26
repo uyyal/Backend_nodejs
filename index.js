@@ -10,7 +10,7 @@ const path=require('path')
 
 const app=express()
 
-const PORT =4000
+const PORT =process.env.PORT || 4000
 
 dotEnV.config();
 
@@ -30,4 +30,8 @@ app.use('/uploads',express.static('uploads'))
 
 app.listen(PORT,()=>{
     console.log(`Server is connected and running on ${PORT}`)
+})
+
+app.use('/',(req,res)=>{
+    res.send("<h1>Welcome to Swiggy")
 })
