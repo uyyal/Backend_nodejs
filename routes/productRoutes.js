@@ -1,15 +1,29 @@
-const express=require('express')
-const productController=require('../controllers/productController')
+const express = require('express');
+const path = require('path');
+const productController = require('../controllers/productController');
 
-const router=express.Router();
+const router = express.Router();
 
-router.post('/add-product/:firmId',productController.addProduct)
-router.get('/:firmId/products',productController.getProductByFirm)
-router.get('/uploads/:imageName',(req,res)=>{
-    const imageName=req.params.imageName;
-    res.headersSent('Content-Type','image/jpeg');
-    res.sendFile(path.join(__dirname,'..','uploads',imageName))
-})
+// Add new product
+router.post('/add-product/:firmId', productController.addProduct);
 
-router.delete('/:productId',productController.deleteProductById)
-module.exports=router;
+// Get all products by firm
+router.get('/:firmId/products', productController.getProductByFirm);
+
+// Serve uploaded images (any type: jpg, png, gif, webp, etc.)
+router.get('/uploads/:imageName', (req, res) => {
+  const imageName = req.params.imageName;
+  const imagePath = path.join(__dirname, '..', 'uploads', imageName);
+
+  res.sendFile(imagePath, (err) => {
+    if (err) {
+      console.error('Error sending image:', err);
+      res.status(404).json({ message: 'Image not found' });
+    }
+  });
+});
+
+// Delete a product by ID
+router.delete('/:productId', productController.deleteProductById);
+
+module.exports = router;
