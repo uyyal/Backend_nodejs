@@ -1,4 +1,4 @@
-const vendorController = require('../controllers/vendorContorller');
+const vendorController = require('../controllers/vendorController');
 const express = require('express');
 const router = express.Router();
 

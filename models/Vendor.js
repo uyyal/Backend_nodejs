@@ -14,12 +14,10 @@ const vendorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  firm: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Firm'
-    }
-  ],
+  firm: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Firm'
+  },
   registrationTime: {
     type: Date,
     default: Date.now
