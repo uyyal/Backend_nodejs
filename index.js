@@ -1,40 +1,39 @@
-const express=require('express')
-const dotEnV=require('dotenv')
-const mongoose=require('mongoose')
-const vendorRoutes=require('./routes/vendorRoutes')
-const bodyParser=require('body-parser')
-const firmRoutes=require('./routes/firmRoutes')
-const productRoutes=require('./routes/productRoutes')
-const path=require('path')
-const cors=require('cors');
+const express = require("express");
+const dotEnv = require('dotenv');
+const mongoose = require('mongoose');
+const vendorRoutes = require('./routes/vendorRoutes');
+const bodyParser = require('body-parser');
+const firmRoutes = require('./routes/firmRoutes');
+const productRoutes = require('./routes/productRoutes');
+const cors = require('cors');
+const path = require('path')
 
+const app = express()
 
-const app=express()
+const PORT = process.env.PORT || 4000;
 
-const PORT =process.env.PORT || 4000
-
-dotEnV.config();
+dotEnv.config();
 app.use(cors())
+// app.use(cors({
+//   origin: 'http://localhost:5173',
+//   credentials: true
+// }));
 
-
+app.use(express.json());
 mongoose.connect(process.env.MONGO_URI)
-.then(()=>{
-    console.log('Mongodb Connected Successfully')
-})
-.catch((err)=>{
-    console.log(err)
-})
+    .then(() => console.log("MongoDB connected successfully!"))
+    .catch((error) => console.log(error))
 
 app.use(bodyParser.json());
-app.use('/vendor',vendorRoutes);
-app.use('/firm',firmRoutes)
-app.use('/product',productRoutes);
-app.use('/uploads',express.static('uploads'))
+app.use('/vendor', vendorRoutes);
+app.use('/firm', firmRoutes)
+app.use('/product', productRoutes);
+app.use('/uploads', express.static('uploads'));
 
-app.listen(PORT,()=>{
-    console.log(`Server is connected and running on ${PORT}`)
-})
+app.listen(PORT, () => {
+    console.log(`server started and running at ${PORT}`);
+});
 
-app.use('/',(req,res)=>{
-    res.send("<h1>Welcome to Swiggy")
+app.use('/', (req, res) => {
+    res.send("<h1> Welcome to SUBY");
 })
